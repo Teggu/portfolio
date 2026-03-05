@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>江口智朗 | Tomoaki Eguchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root {
+    --bg: #080a0f;
+    --bg2: #0d1117;
+    --bg3: #131920;
+    --surface: #161d26;
+    --border: #1e2c3a;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --text: #e2e8f0;
+    --text-muted: #64748b;
+    --text-dim: #94a3b8;
+    --drone: #00d4ff;
+    --robocon: #f59e0b;
+    --aqua: #10b981;
+    --biz: #a78bfa;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(8,10,15,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-family: 'JetBrains Mono', monospace;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -3px; left: 0; right: 0; height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { transform: scaleX(1); }
+
+  /* HERO */
+  .hero {
+    min-height: 60vh;
+    display: flex; align-items: center;
+    padding: 5rem 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 50%, rgba(0,212,255,0.04) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 80%, rgba(124,58,237,0.05) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 900px;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-name-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 2.5rem;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 1;
+    letter-spacing: 0.03em;
+    color: var(--text);
+  }
+  .hero-name span { color: var(--accent); }
+  .hero-sub {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.5rem, 4vw, 3rem);
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-desc {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .hero-tags {
+    display: flex; flex-wrap: wrap; gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .tag {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.02);
+    transition: all 0.3s;
+  }
+  .tag:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,212,255,0.05);
+  }
+  .hero-cta {
+    display: flex; gap: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.2s forwards;
+  }
+  .btn-primary {
+    padding: 0.85rem 2rem;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    font-weight: 400;
+  }
+  .btn-primary:hover { background: #fff; transform: translateY(-2px); }
+  .btn-outline {
+    padding: 0.85rem 2rem;
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* STATS BAR */
+  .stats-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+  }
+  .stat-item {
+    padding: 1rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+  .stat-item::after {
+    content: '';
+    position: absolute; right: 0; top: 20%; bottom: 20%;
+    width: 1px; background: var(--border);
+  }
+  .stat-item:last-child::after { display: none; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    display: block;
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 0.4rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; }
+  .section-header {
+    display: flex; align-items: baseline; gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+  .section-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.08em;
+    color: var(--text);
+  }
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+    margin-left: 1rem;
+  }
+
+  /* PROJECT CARDS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .project-card {
+    background: var(--bg2);
+    padding: 2.5rem;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-color, var(--accent));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover { background: var(--surface); }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card.drone { --card-color: var(--drone); }
+  .project-card.robocon { --card-color: var(--robocon); }
+  .project-card.aqua { --card-color: var(--aqua); }
+  .project-card.biz { --card-color: var(--biz); }
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--card-color, var(--accent));
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .card-tag::before {
+    content: '';
+    width: 20px; height: 1px;
+    background: var(--card-color, var(--accent));
+  }
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .card-desc {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+  .card-achievements {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .card-achievements li {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    line-height: 1.5;
+  }
+  .card-achievements li::before {
+    content: '→';
+    color: var(--card-color, var(--accent));
+    flex-shrink: 0;
+    margin-top: 0;
+  }
+  .award-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(245,158,11,0.1);
+    border: 1px solid rgba(245,158,11,0.3);
+    padding: 0.2rem 0.6rem;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: #f59e0b;
+    margin-top: 1rem;
+  }
+
+  /* AWARDS */
+  .awards-list {
+    display: flex; flex-direction: column; gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .award-item {
+    background: var(--bg2);
+    padding: 1.5rem 2.5rem;
+    display: grid;
+    grid-template-columns: 120px 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    transition: background 0.3s;
+  }
+  .award-item:hover { background: var(--surface); }
+  .award-year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .award-name {
+    font-size: 0.9rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+  .award-detail {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+  }
+  .award-prize {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    color: #f59e0b;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  /* TIMELINE */
+  .timeline {
+    position: relative;
+    padding-left: 3rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent2) 50%, var(--border) 100%);
+  }
+  .tl-year-group { margin-bottom: 2.5rem; }
+  .tl-year {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .tl-year::before {
+    content: '';
+    position: absolute;
+    left: -3.5rem; top: 50%;
+    transform: translateY(-50%);
+    width: 12px; height: 12px;
+    border: 2px solid var(--accent);
+    background: var(--bg);
+    border-radius: 50%;
+  }
+  .tl-items { display: flex; flex-direction: column; gap: 0.75rem; }
+  .tl-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid transparent;
+    padding: 1rem 1.5rem;
+    transition: all 0.3s;
+  }
+  .tl-item:hover {
+    border-left-color: var(--accent);
+    background: var(--bg3);
+    transform: translateX(4px);
+  }
+  .tl-item.drone-item { border-left-color: rgba(0,212,255,0.3); }
+  .tl-item.robocon-item { border-left-color: rgba(245,158,11,0.3); }
+  .tl-item.aqua-item { border-left-color: rgba(16,185,129,0.3); }
+  .tl-item.biz-item { border-left-color: rgba(167,139,250,0.3); }
+  .tl-month {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+  }
+  .tl-text {
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+  .tl-text strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+  .tl-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.08em;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+  .badge-award { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+  .badge-academic { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.2); }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .skill-category {
+    background: var(--bg2);
+    padding: 2rem;
+  }
+  .skill-cat-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .skill-cat-name::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    padding: 0.3rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    transition: all 0.2s;
+  }
+  .skill-tag:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    padding: 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(0,212,255,0.03) 0%, transparent 70%);
+  }
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--text);
+    margin-bottom: 1rem;
+    position: relative;
+  }
+  .contact-sub {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  .contact-links {
+    display: flex; justify-content: center; gap: 1.5rem;
+    position: relative;
+  }
+  .contact-link {
+    padding: 0.9rem 2rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    text-decoration: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,212,255,0.05);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+  }
+  .footer-copy {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Glitch effect on name hover */
+  .hero-name:hover {
+    animation: glitch 0.3s steps(2) forwards;
+  }
+  @keyframes glitch {
+    0% { text-shadow: 2px 0 var(--accent), -2px 0 var(--accent2); }
+    25% { text-shadow: -2px 0 var(--accent), 2px 0 var(--accent2); }
+    50% { text-shadow: 2px 2px var(--accent3), -2px -2px var(--accent2); }
+    75% { text-shadow: -2px 2px var(--accent), 2px -2px var(--accent3); }
+    100% { text-shadow: none; }
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9990;
+  }
+
+  /* Timeline link */
+  .tl-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+  .tl-link .tl-item::after {
+    content: '→';
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .tl-item { position: relative; }
+  .tl-link:hover .tl-item {
+    border-left-color: var(--accent);
+    background: var(--bg3);
+    transform: translateX(4px);
+  }
+  .tl-link:hover .tl-item::after { opacity: 1; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 8rem 1.5rem 4rem; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); padding: 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .award-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .contact-section { padding: 2.5rem 1.5rem; }
+    .contact-links { flex-direction: column; align-items: center; }
+    footer { flex-direction: column; gap: 0.75rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#awards">Awards</a></li>
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">江口 智朗</div>
+    <div class="hero-name-row">
+      <div class="hero-name">EGUCHI <span>TOMOAKI</span></div>
+    </div>
+    <p class="hero-desc"
+      data-ja-html="熊本高専 専攻科 電子制御システム工学専攻"
+      data-en-html="Kumamoto KOSEN — Advanced Engineering Program (Electronics &amp; Control Systems)">
+      熊本高専 専攻科 電子制御システム工学専攻
+    </p>
+    <div class="hero-tags">
+      <span class="tag">Drone Research</span>
+      <span class="tag">Embedded Systems</span>
+      <span class="tag">Robotics</span>
+      <span class="tag">Quantum Annealing</span>
+      <span class="tag">Entrepreneurship</span>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View My Projects</a>
+      <a href="#contact" class="btn-outline">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid fade-in">
+
+    <!-- DRONE -->
+    <div class="project-card drone">
+      <div class="card-tag">Drone Research</div>
+      <div class="card-title" style="font-size:0.8em;"
+        data-ja-html="モジュール型クアッドコプタ配置による<br>対故障性マルチコプタ"
+        data-en-html="Modular Quad-Copter Based<br>Fault-Tolerant Multicopter">モジュール型クアッドコプタ配置による<br>対故障性マルチコプタ</div>
+      <p class="card-desc"
+        data-ja="モーター故障時にも飛行を継続できる脱着式推進モジュールを開発。"
+        data-en="Developed detachable propulsion modules enabling continued flight even upon motor failure.">
+        モーター故障時にも飛行を継続できる脱着式推進モジュールを開発。
+      </p>
+      <ul class="card-achievements">
+        <li data-ja="東熱科学技術奨学財団 奨励賞（200万円）採択（2022年）" data-en="Tonetsu Foundation Encouragement Award (¥2M) (2022)">東熱科学技術奨学財団 奨励賞（200万円）採択（2022年）</li>
+        <li data-ja="AKATSUKIプロジェクト（熊本版未踏）採択・修了（2024年）" data-en="AKATSUAKI Project (Mitou-type) Completion (2024)">AKATSUKIプロジェクト（熊本版未踏）採択・修了（2024年）</li>
+
+      </ul>
+    </div>
+
+    <!-- ROBOCON -->
+    <div class="project-card robocon">
+      <div class="card-tag">Robotics Competition</div>
+      <div class="card-title"
+        data-ja-html="高専ロボコン<br>2020 - 2025"
+        data-en-html="KOSEN Robocon<br>2020 - 2025">高専ロボコン<br>2020 - 2025</div>
+      <p class="card-desc"
+        data-ja="制御・回路設計を一貫して担当。5年間参加し、2025年はコーチとして2チームをサポート。全国大会準優勝も達成。"
+        data-en="Consistently handled control and circuit design. Competed for 5 years, and coached two teams in 2025. Achieved National Tournament Runner-Up.">
+        制御・回路設計を一貫して担当。5年間参加し、
+        2025年はコーチとして2チームをサポート。全国大会準優勝も達成。
+      </p>
+      <ul class="card-achievements">
+        <li data-ja="2020 企業賞「たけしくん」" data-en='2020 Company Award "Takeshikun"'>2020 企業賞「たけしくん」</li>
+        <li data-ja="2022 企業賞「スイカキング」" data-en='2022 Company Award "Watermelon King"'>2022 企業賞「スイカキング」</li>
+        <li data-ja="2023 「シュッポッポ」回路・制御担当" data-en='2023 "Shupoppo" — Circuit &amp; Control Lead'>2023 「シュッポッポ」回路・制御担当</li>
+        <li data-ja="2024 「星射必宙」地区大会準優勝・全国大会準優勝" data-en='2024 "Hoshi-sha-hicchuu" — Regional &amp; National Runner-Up'>2024 「星射必宙」地区大会準優勝・全国大会準優勝</li>
+        <li data-ja="2025 コーチとして2チームサポート（地区大会優勝/準優勝・全国大会準優勝）" data-en="2025 Coached 2 Teams (Regional 1st &amp; 2nd, National Runner-Up)">2025 コーチとして2チームサポート（地区大会優勝/準優勝・全国大会準優勝）</li>
+      </ul>
+    </div>
+
+    <!-- AQUA -->
+    <div class="project-card aqua">
+      <div class="card-tag">IoT / Aquaculture</div>
+      <div class="card-title"
+        data-ja-html="水槽管理<br>システム"
+        data-en-html="Aquaculture<br>Management System">水槽管理<br>システム</div>
+      <p class="card-desc"
+        data-ja="センサ連携による水槽の自動管理システム。KIC（高専インキュベーション）にてビジネスモデルを考案。"
+        data-en="Automated aquaculture management system using sensor integration. Proposed a business model through KIC (KOSEN Incubation Committee).">
+        センサ連携による水槽の自動管理システム。
+        KIC（高専インキュベーション）にてビジネスモデルを考案。
+      </p>
+      <ul class="card-achievements">
+        <li data-ja="学内奨励研究 2020年度採択" data-en="Research Grant Adopted 2020">学内奨励研究 2020年度採択</li>
+        <li data-ja="KIC修了（2023年）ビジネスモデル考案" data-en="KIC Completion (2023) — Business Model Development">KIC修了（2023年）ビジネスモデル考案</li>
+      </ul>
+    </div>
+
+    <!-- BUSINESS -->
+    <div class="project-card biz" style="grid-column: span 1;">
+      <div class="card-tag">Entrepreneurship / Social Innovation</div>
+      <div class="card-title"
+        data-ja-html="アントレプレナーシップ<br>&amp; 社会実装"
+        data-en-html="Entrepreneurship<br>&amp; Social Innovation">アントレプレナーシップ<br>& 社会実装</div>
+      <p class="card-desc"
+        data-ja="複数のコンテスト・インキュベーションプログラムで社会課題に取り組んだ。シリコンバレー研修・北海道アントレキャンプ等に参加。"
+        data-en="Engaged with social challenges through multiple contests and incubation programs. Participated in Silicon Valley training and Hokkaido entrepreneurship camp.">
+        複数のコンテスト・インキュベーションプログラムで社会課題に取り組んだ。
+        シリコンバレー研修・北海道アントレキャンプ等に参加。
+      </p>
+      <ul class="card-achievements">
+        <li data-ja="SONY ELTRES 最優秀賞（IoT名札で園児の置き去り防止）" data-en="SONY ELTRES Grand Prize (IoT tag for child safety on buses)">SONY ELTRES 最優秀賞（IoT名札で園児の置き去り防止）</li>
+        <li data-ja="DCON参加（ES作成AIツール開発）" data-en="DCON Participation (AI tool for job application essays)">DCON参加（ES作成AIツール開発）</li>
+        <li data-ja="J-StarX シリコンバレー研修（2024年）" data-en="J-StarX Silicon Valley Program (2024)">J-StarX シリコンバレー研修（2024年）</li>
+        <li data-ja="北海道アントレキャンプ 受賞（2024年）" data-en="Hokkaido Entrepreneurship Camp Award (2024)">北海道アントレキャンプ 受賞（2024年）</li>
+        <li data-ja="量子アニーリングで食品ロス削減（Q-QUEST-GROW修了）" data-en="Food Loss Reduction via Quantum Annealing (Q-QUEST-GROW)">量子アニーリングで食品ロス削減（Q-QUEST-GROW修了）</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- AWARDS -->
+<section id="awards" style="background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Awards</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="awards-list fade-in">
+    <div class="award-item">
+      <div class="award-year">2022.09</div>
+      <div>
+        <div class="award-name" data-ja="東熱科学技術奨学財団 奨励賞" data-en="Tonetsu Foundation Encouragement Award">東熱科学技術奨学財団 奨励賞</div>
+        <div class="award-detail" data-ja="モジュール型ドローンによる墜落防止システムの開発" data-en="Development of crash-prevention system for modular drones">モジュール型ドローンによる墜落防止システムの開発</div>
+      </div>
+      <div class="award-prize">¥2,000,000</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2022.12</div>
+      <div>
+        <div class="award-name" data-ja="SONY ELTRESアイデアコンテスト2022 最優秀賞" data-en="SONY ELTRES Idea Contest 2022 — Grand Prize">SONY ELTRESアイデアコンテスト2022 最優秀賞</div>
+        <div class="award-detail" data-ja="バスに取り残される園児を守るIoT名札" data-en="IoT name tag to protect children left behind on buses">バスに取り残される園児を守るIoT名札</div>
+      </div>
+      <div class="award-prize" data-ja="最優秀賞" data-en="Grand Prize">最優秀賞</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2022.10</div>
+      <div>
+        <div class="award-name" data-ja="高専ロボコン2020 / 2022 企業賞" data-en="KOSEN Robocon 2020 / 2022 — Company Award">高専ロボコン2020 / 2022 企業賞</div>
+        <div class="award-detail" data-ja="たけしくん（2020）・スイカキング（2022）" data-en="National robot contest for KOSEN students. Circuit &amp; control lead; awarded twice.">たけしくん（2020）・スイカキング（2022）</div>
+      </div>
+      <div class="award-prize" data-ja="企業賞 ×2" data-en="Company Award ×2">企業賞 ×2</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2024.10</div>
+      <div>
+        <div class="award-name" data-ja="高専ロボコン2024「星射必宙」全国大会準優勝" data-en='KOSEN Robocon 2024 "Hoshi-sha-hicchuu" — National Runner-Up'>高専ロボコン2024「星射必宙」全国大会準優勝</div>
+        <div class="award-detail" data-ja="地区大会準優勝・全国大会準優勝（回路・制御担当）" data-en="Regional &amp; National Runner-Up (Circuit &amp; Control Lead)">地区大会準優勝・全国大会準優勝（回路・制御担当）</div>
+      </div>
+      <div class="award-prize" data-ja="準優勝" data-en="Runner-Up">準優勝</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2024.09</div>
+      <div>
+        <div class="award-name" data-ja="北海道アントレキャンプ 受賞" data-en="Hokkaido Entrepreneurship Camp — Award">北海道アントレキャンプ 受賞</div>
+        <div class="award-detail" data-ja="北海道十勝の地域課題解決サービス" data-en="Regional issue-solving service for Hokkaido Tokachi">北海道十勝の地域課題解決サービス</div>
+      </div>
+      <div class="award-prize" data-ja="受賞" data-en="Award">受賞</div>
+    </div>
+    <div class="award-item">
+      <div class="award-year">2025.10</div>
+      <div>
+        <div class="award-name" data-ja="日本福祉学会九州支部 優秀発表賞" data-en="Japan Welfare Society Kyushu — Best Presentation Award">日本福祉学会九州支部 優秀発表賞</div>
+        <div class="award-detail" data-ja="福祉分野への技術応用に関する発表" data-en="Presentation on technological applications in welfare">福祉分野への技術応用に関する発表</div>
+      </div>
+      <div class="award-prize" data-ja="優秀発表賞" data-en="Best Presentation">優秀発表賞</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Timeline</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline fade-in">
+
+    <div class="tl-year-group">
+      <div class="tl-year">2020</div>
+      <div class="tl-items">
+        <div class="tl-item">
+          <div class="tl-month">APR</div>
+          <div class="tl-text"
+            data-ja-html="<strong>熊本高専 入学</strong>　制御情報システム工学科"
+            data-en-html="<strong>Admitted to Kumamoto KOSEN</strong> Dept. of Control &amp; Information Systems Engineering"><strong>熊本高専 入学</strong>　制御情報システム工学科</div>
+        </div>
+        <a href="pages/2020-aqua-research.html" class="tl-link">
+        <div class="tl-item aqua-item">
+          <div class="tl-month">MAY</div>
+          <div class="tl-text"
+            data-ja-html="<strong>学内奨励研究採択</strong>　水槽管理システム"
+            data-en-html="<strong>Research Grant Adopted</strong> Aquaculture Management System"><strong>学内奨励研究採択</strong>　水槽管理システム</div>
+        </div>
+        </a>
+        <a href="pages/2020-robocon.html" class="tl-link">
+        <div class="tl-item robocon-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>ロボコン部入部</strong>　→ 高専ロボコン2020「たけしくん」制御・回路担当"
+            data-en-html="<strong>Joined Robotics Club</strong> → KOSEN Robocon 2020 &quot;Takeshikun&quot; — Circuit &amp; Control Lead"><strong>ロボコン部入部</strong>　→ 高専ロボコン2020「たけしくん」制御・回路担当</div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="tl-year-group">
+      <div class="tl-year">2021</div>
+      <div class="tl-items">
+        <div class="tl-item drone-item">
+          <div class="tl-month">MAY</div>
+          <div class="tl-text"
+            data-ja-html="<strong>学内奨励研究採択</strong>　ドローンの自律移動に関する研究"
+            data-en-html="<strong>Research Grant Adopted</strong> Autonomous Drone Navigation Research"><strong>学内奨励研究採択</strong>　ドローンの自律移動に関する研究</div>
+        </div>
+        <div class="tl-item robocon-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>高専ロボコン2021「たけし」</strong>　制御・回路担当"
+            data-en-html="<strong>KOSEN Robocon 2021 &quot;Takeshi&quot;</strong> Circuit &amp; Control Lead"><strong>高専ロボコン2021「たけし」</strong>　制御・回路担当</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-year-group">
+      <div class="tl-year">2022</div>
+      <div class="tl-items">
+        <div class="tl-item drone-item">
+          <div class="tl-month">SEP</div>
+          <div class="tl-text"
+            data-ja-html="<strong>東熱科学技術奨学財団 奨励賞（200万円）</strong>　安定した飛行を行う自律輸送ドローンの開発"
+            data-en-html="<strong>Tonetsu Foundation Encouragement Award (¥2M)</strong> Development of an Autonomous Transport Drone with Stable Flight"><strong>東熱科学技術奨学財団 奨励賞（200万円）</strong>　安定した飛行を行う自律輸送ドローンの開発</div>
+        </div>
+        <div class="tl-item drone-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>学内奨励研究採択</strong>　揚力向上のためのプロペラガードに関する研究"
+            data-en-html="<strong>Research Grant Adopted</strong> Propeller Guard Research for Enhanced Lift"><strong>学内奨励研究採択</strong>　揚力向上のためのプロペラガードに関する研究</div>
+        </div>
+        <div class="tl-item robocon-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>高専ロボコン2022「スイカキング」</strong>　制御・回路担当"
+            data-en-html="<strong>KOSEN Robocon 2022 &quot;Watermelon King&quot;</strong> Circuit &amp; Control Lead"><strong>高専ロボコン2022「スイカキング」</strong>　制御・回路担当</div>
+        </div>
+        <a href="pages/2022-sony-eltres.html" class="tl-link">
+        <div class="tl-item biz-item">
+          <div class="tl-month">DEC</div>
+          <div class="tl-text"
+            data-ja-html="<strong>SONY ELTRESアイデアコンテスト2022 最優秀賞</strong>　バスの置き去り防止IoT名札"
+            data-en-html="<strong>SONY ELTRES Idea Contest 2022 — Grand Prize</strong> IoT Name Tag to Prevent Children Being Left on Buses"><strong>SONY ELTRESアイデアコンテスト2022 最優秀賞</strong>　バスの置き去り防止IoT名札</div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="tl-year-group">
+      <div class="tl-year">2023</div>
+      <div class="tl-items">
+        <a href="pages/2023-kic.html" class="tl-link">
+        <div class="tl-item aqua-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>KIC（Kosen Incubate Committee）修了</strong>　水槽管理システムのビジネスモデル考案"
+            data-en-html="<strong>KIC (Kosen Incubate Committee) Completion</strong> Business Model for Aquaculture Management System"><strong>KIC（Kosen Incubate Committee）修了</strong>　水槽管理システムのビジネスモデル考案</div>
+        </div>
+        </a>
+        <a href="pages/2023-dcon.html" class="tl-link">
+        <div class="tl-item biz-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>DCON参加</strong>　ES作成AIツールの開発"
+            data-en-html="<strong>DCON Participation</strong> AI Tool for Job Application Essay Generation"><strong>DCON参加</strong>　ES作成AIツールの開発</div>
+        </div>
+        </a>
+        <a href="pages/2023-robocon.html" class="tl-link">
+        <div class="tl-item robocon-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>高専ロボコン2023「シュッポッポ」</strong>　回路・制御担当"
+            data-en-html="<strong>KOSEN Robocon 2023 &quot;Shupoppo&quot;</strong> Circuit &amp; Control Lead"><strong>高専ロボコン2023「シュッポッポ」</strong>　回路・制御担当</div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="tl-year-group">
+      <div class="tl-year">2024</div>
+      <div class="tl-items">
+        <a href="pages/2024-jstarx.html" class="tl-link">
+        <div class="tl-item biz-item">
+          <div class="tl-month">FEB</div>
+          <div class="tl-text"
+            data-ja-html="<strong>J-StarX シリコンバレー研修</strong>　参加"
+            data-en-html="<strong>J-StarX Silicon Valley Program</strong> Participant"><strong>J-StarX シリコンバレー研修</strong>　参加</div>
+        </div>
+        </a>
+        <a href="pages/2024-akatsuaki.html" class="tl-link">
+        <div class="tl-item drone-item">
+          <div class="tl-month">AUG</div>
+          <div class="tl-text"
+            data-ja-html="<strong>AKATSUKIプロジェクト（熊本版未踏）採択・修了</strong>　汎用モジュール化ドローンの開発"
+            data-en-html="<strong>AKATSUAKI Project (Mitou-type) Adopted &amp; Completed</strong> General-Purpose Modular Drone Development"><strong>AKATSUKIプロジェクト（熊本版未踏）採択・修了</strong>　汎用モジュール化ドローンの開発</div>
+        </div>
+        </a>
+        <a href="pages/2024-hokkaido.html" class="tl-link">
+        <div class="tl-item biz-item">
+          <div class="tl-month">SEP</div>
+          <div class="tl-text"
+            data-ja-html="<strong>北海道アントレキャンプ</strong>　参加・受賞"
+            data-en-html="<strong>Hokkaido Entrepreneurship Camp</strong> Participant &amp; Award Recipient"><strong>北海道アントレキャンプ</strong>　参加・受賞</div>
+        </div>
+        </a>
+        <a href="pages/2024-robocon.html" class="tl-link">
+        <div class="tl-item robocon-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>高専ロボコン2024「星射必宙」</strong>　地区大会準優勝・全国大会準優勝"
+            data-en-html="<strong>KOSEN Robocon 2024 &quot;Hoshi-sha-hicchuu&quot;</strong> Regional &amp; National Runner-Up"><strong>高専ロボコン2024「星射必宙」</strong>　地区大会準優勝・全国大会準優勝</div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="tl-year-group">
+      <div class="tl-year">2025</div>
+      <div class="tl-items">
+        <div class="tl-item">
+          <div class="tl-month">MAR</div>
+          <div class="tl-text"
+            data-ja-html="<strong>熊本高専 卒業</strong>　制御情報システム工学科"
+            data-en-html="<strong>Graduated from Kumamoto KOSEN</strong> Dept. of Control &amp; Information Systems Engineering"><strong>熊本高専 卒業</strong>　制御情報システム工学科</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-month">APR</div>
+          <div class="tl-text"
+            data-ja-html="<strong>熊本高専 専攻科 入学</strong>　電子制御システム工学専攻"
+            data-en-html="<strong>Enrolled in Kumamoto KOSEN Advanced Engineering</strong> Electronics &amp; Control Systems Engineering Program"><strong>熊本高専 専攻科 入学</strong>　電子制御システム工学専攻</div>
+        </div>
+        <a href="pages/2025-q-quest.html" class="tl-link">
+        <div class="tl-item biz-item">
+          <div class="tl-month">JUN</div>
+          <div class="tl-text"
+            data-ja-html="<strong>AKATSUKIプロジェクト Q-QUEST-GROW 採択・修了</strong>　量子アニーリングによる食品ロス削減システム"
+            data-en-html="<strong>AKATSUAKI Q-QUEST-GROW Adopted &amp; Completed</strong> Food Loss Reduction System via Quantum Annealing"><strong>AKATSUKIプロジェクト Q-QUEST-GROW 採択・修了</strong>　量子アニーリングによる食品ロス削減システム</div>
+        </div>
+        </a>
+        <a href="pages/2025-fukushi.html" class="tl-link">
+        <div class="tl-item">
+          <div class="tl-month">OCT</div>
+          <div class="tl-text"
+            data-ja-html="<strong>日本福祉学会九州支部 優秀発表賞</strong>"
+            data-en-html="<strong>Japan Welfare Society Kyushu — Best Presentation Award</strong>"><strong>日本福祉学会九州支部 優秀発表賞</strong></div>
+        </div>
+        </a>
+        <a href="pages/2025-si2025.html" class="tl-link">
+        <div class="tl-item">
+          <div class="tl-month">DEC</div>
+          <div class="tl-text"
+            data-ja-html="<strong>SI2025学会</strong>　発表"
+            data-en-html="<strong>SI2025 Conference</strong> Presentation"><strong>SI2025学会</strong>　発表</div>
+        </div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">主なスキル</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid fade-in">
+    <div class="skill-category">
+      <div class="skill-cat-name">Embedded / Hardware</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Arduino</span>
+        <span class="skill-tag">Circuit Design</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-name">Software</div>
+      <div class="skill-tags">
+        <span class="skill-tag">C/C++</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Swift</span>
+        <span class="skill-tag">SwiftUI</span>
+        <span class="skill-tag">ROS</span>
+        <span class="skill-tag">Control Systems</span>
+        <span class="skill-tag">Quantum Annealing</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-section fade-in">
+    <div class="contact-title">Contact</div>
+    <div class="contact-links">
+      <a href="mailto:magnate.editor.9y@icloud.com" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+      <a href="https://github.com/Teggu" target="_blank" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a href="https://www.linkedin.com/" target="_blank" class="contact-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">EGUCHI TOMOAKI</div>
+  <div class="footer-copy">© 2025 Tomoaki Eguchi. All rights reserved.</div>
+</footer>
+
+<script>
+
+  // Scroll fade-in
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => observer.observe(el));
+</script>
+<script src="lang.js"></script>
+</body>
+</html>
